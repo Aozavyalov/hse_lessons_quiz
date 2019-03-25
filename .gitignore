@@ -1,2 +1,4 @@
 /hse_quiz_bot
 /.vscode
+/*.db
+*.py[cod]

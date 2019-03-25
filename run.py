@@ -2,17 +2,18 @@ import logging
 import sys
 from argparse import ArgumentParser, Namespace
 
-from bot import run
-from bd import init_db
-from config import TOKENS, DB_CREDENTIALS
+from database.tools import init_db
+from config import TOKENS, DB_CONFIG
 
 LOGGING_LEVELS = {
     'TEST': logging.DEBUG,
     'PROD': logging.INFO
 }
 
+
 def parse_argv() -> Namespace:
-    parser = ArgumentParser(description="Starts telegram bot for lessons materials")
+    parser = ArgumentParser(
+        description="Starts telegram bot for lessons materials")
     parser.add_argument('action', type=str,
                         help="run|init_db")
     parser.add_argument('--token', '-t', type=str, default="TEST",
@@ -25,7 +26,7 @@ def parse_argv() -> Namespace:
 if __name__ == "__main__":
     args = parse_argv()
     if args.action == "init_db":
-        init_db(DB_CREDENTIALS)
+        init_db()
     elif args.action == "run":
         run(
             token=TOKENS.get(args.token.upper(), TOKENS["TEST"]),
