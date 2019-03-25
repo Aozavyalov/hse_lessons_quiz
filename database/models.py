@@ -22,7 +22,7 @@ class Group(BaseModel):
 
 
 class User(BaseModel):
-    telegram_id = IntegerField(unique=1)
+    telegram_id = IntegerField(unique=True)
     name = CharField()
     group = ForeignKeyField(
         Group,
