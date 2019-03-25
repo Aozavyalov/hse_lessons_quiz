@@ -6,11 +6,7 @@ from playhouse.pool import SqliteDatabase
 from playhouse.shortcuts import RetryOperationalError
 
 
-class MyRetryDB(RetryOperationalError, SqliteDatabase):
-    pass
-
-
-db = MyRetryDB('hse_quiz.db', **DB_CREDENTIALS)
+db = SqliteDatabase('hse_quiz.db', **DB_CREDENTIALS)
 
 class BaseModel(Model):
     id = PrimaryKeyField()
