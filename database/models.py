@@ -1,18 +1,25 @@
 from peewee import Model
+from peewee import (BooleanField, CharField, DateTimeField, ForeignKeyField,
+                    IntegerField, Model, PrimaryKeyField, TextField)
+from config import DB_CONFIG
+from datetime import datetime as dt
 
-from config import DB_CREDENTIALS
-
-from playhouse.pool import SqliteDatabase
-from playhouse.shortcuts import RetryOperationalError
+from playhouse.pool import SqliteExtDatabase
 
 
-db = SqliteDatabase('hse_quiz.db', **DB_CREDENTIALS)
+db = SqliteExtDatabase('lesson_quiz.db', pragmas=DB_CONFIG)
+
 
 class BaseModel(Model):
     id = PrimaryKeyField()
 
     class Meta:
         database = db
+
+
+class Group(BaseModel):
+    name = CharField()
+
 
 class User(BaseModel):
     telegram_id = IntegerField(unique=1)
@@ -24,8 +31,6 @@ class User(BaseModel):
         db_column='group_id'
     )
 
-class Group(BaseModel):
-    name = CharField()
 
 class Event(BaseModel):
     name = CharField()
@@ -33,9 +38,11 @@ class Event(BaseModel):
     poll = CharField()
     datetime = DateTimeField(default=dt.now())
 
+
 class Materials(BaseModel):
     link = CharField()
     content = CharField()
+
 
 class Notification(BaseModel):
     user = ForeignKeyField(
@@ -45,6 +52,7 @@ class Notification(BaseModel):
         db_column='user_id'
     )
     datetime = DateTimeField(default=dt.now())
+
 
 class User_Group(BaseModel):
     user = ForeignKeyField(
@@ -60,6 +68,7 @@ class User_Group(BaseModel):
         db_column='group_id'
     )
 
+
 class Event_Materials(BaseModel):
     event = ForeignKeyField(
         Event,
@@ -73,6 +82,7 @@ class Event_Materials(BaseModel):
         on_update='CASCADE',
         db_column='materials_id'
     )
+
 
 class Event_Group(BaseModel):
     event = ForeignKeyField(

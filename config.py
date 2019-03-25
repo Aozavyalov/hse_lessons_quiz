@@ -1,13 +1,11 @@
 import logging
 import os
 
-DB_CREDENTIALS = {
-    'host': 'localhost',
-    'port': 5432,
-    'user': os.environ.get("POSTGRES_USER"),
-    'password': os.environ.get("POSTGRES_PASSWORD"),
-    'autorollback': True
-}
+DB_CONFIG = (
+        ('cache_size', -1024 * 64),  # 64MB page-cache.
+        ('journal_mode', 'wal'),  # Use WAL-mode (you should always use this!).
+        ('foreign_keys', 1)
+        )
 
 TOKENS = {
     'TEST': os.environ.get("API_KEY_HSE_QUIZ_BOT")
