@@ -1,7 +1,7 @@
 import logging
 import os
 
-BD_CREDENTIALS = {
+DB_CREDENTIALS = {
     'host': 'localhost',
     'port': 5432,
     'user': os.environ.get("POSTGRES_USER"),

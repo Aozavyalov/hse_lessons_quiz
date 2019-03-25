@@ -4,7 +4,7 @@ from argparse import ArgumentParser, Namespace
 
 from bot import run
 from bd import init_db
-from config import TOKENS, BD_CREDENTIALS
+from config import TOKENS, DB_CREDENTIALS
 
 LOGGING_LEVELS = {
     'TEST': logging.DEBUG,
@@ -25,7 +25,7 @@ def parse_argv() -> Namespace:
 if __name__ == "__main__":
     args = parse_argv()
     if args.action == "init_db":
-        init_db(BD_CREDENTIALS)
+        init_db(DB_CREDENTIALS)
     elif args.action == "run":
         run(
             token=TOKENS.get(args.token.upper(), TOKENS["TEST"]),
