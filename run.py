@@ -1,9 +1,8 @@
 import logging
 from argparse import ArgumentParser, Namespace
 
-from bot import run
+from bot import init_db, run
 from config import TOKEN
-from database.tools import init_db
 
 
 logging.basicConfig(

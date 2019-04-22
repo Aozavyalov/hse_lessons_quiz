@@ -1,7 +1,9 @@
+from collections import Collection
 from datetime import datetime as dt
+from typing import NoReturn
 
-from peewee import (BooleanField, CharField, DateTimeField, ForeignKeyField,
-                    IntegerField, Model, PrimaryKeyField, TextField)
+from peewee import (CharField, DateTimeField, ForeignKeyField, IntegerField,
+                    Model, PrimaryKeyField, TextField)
 from playhouse.pool import SqliteExtDatabase
 
 from config import DB_CONFIG
@@ -97,3 +99,27 @@ class Event_Group(BaseModel):
         on_update='CASCADE',
         db_column='group_id'
     )
+
+
+def create_tables(tables: Collection) -> NoReturn:
+    for table in tables:
+        if not table.table_exists():
+            print("create table: {}".format(table))
+            table.create_table()
+
+
+def drop_tables(tables: Collection) -> NoReturn:
+    for table in reversed(tables):
+        if table.table_exists():
+            print("drop table: {}".format(table))
+            table.drop_table()
+
+
+def init_db() -> NoReturn:
+    """ (re)Create tables in database """
+    drop_tables(TABLES)
+    create_tables(TABLES)
+
+
+TABLES = (User, Group, Event, Materials, Notification,
+          User_Group, Event_Materials, Event_Group)
