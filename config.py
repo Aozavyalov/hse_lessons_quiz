@@ -9,3 +9,9 @@ DB_CONFIG = (
 )
 
 TOKEN = "fuck"
+
+DIMA = 42928638
+ALEX = None
+ANDREY = None
+
+ADMINS = (DIMA, ALEX, ANDREY)
