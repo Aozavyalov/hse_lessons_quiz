@@ -1,8 +1,11 @@
-from peewee import (BooleanField, CharField, DateTimeField, ForeignKeyField,
-                    IntegerField, Model, PrimaryKeyField, TextField)
-from playhouse.pool import SqliteExtDatabase
 from collections import Collection
-from database import TABLES
+
+from database.models import (Event, Event_Group, Event_Materials, Group,
+                             Materials, Notification, User, User_Group)
+
+
+TABLES = (User, Group, Event, Materials, Notification,
+          User_Group, Event_Materials, Event_Group)
 
 
 def create_tables(tables: Collection) -> None:
@@ -21,6 +24,5 @@ def drop_tables(tables: Collection) -> None:
 
 def init_db() -> None:
     """ (re)Create tables in database """
-
     drop_tables(TABLES)
     create_tables(TABLES)

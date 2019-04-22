@@ -1,10 +1,10 @@
-from peewee import Model
-from peewee import (BooleanField, CharField, DateTimeField, ForeignKeyField,
-                    IntegerField, Model, PrimaryKeyField, TextField)
-from config import DB_CONFIG
 from datetime import datetime as dt
 
+from peewee import (BooleanField, CharField, DateTimeField, ForeignKeyField,
+                    IntegerField, Model, PrimaryKeyField, TextField)
 from playhouse.pool import SqliteExtDatabase
+
+from config import DB_CONFIG
 
 
 db = SqliteExtDatabase('lesson_quiz.db', pragmas=DB_CONFIG)
@@ -18,7 +18,7 @@ class BaseModel(Model):
 
 
 class Group(BaseModel):
-    name = CharField()
+    name = CharField(unique=True, max_length=64)
 
 
 class User(BaseModel):
@@ -34,14 +34,14 @@ class User(BaseModel):
 
 class Event(BaseModel):
     name = CharField()
-    link = CharField()
-    poll = CharField()
-    datetime = DateTimeField(default=dt.now())
+    link = CharField(unique=True, max_length=512)
+    poll = CharField(max_length=512)
+    datetime = DateTimeField(default=dt.now)
 
 
 class Materials(BaseModel):
-    link = CharField()
-    content = CharField()
+    link = CharField(unique=True, max_length=512)
+    content = TextField()
 
 
 class Notification(BaseModel):
@@ -51,7 +51,7 @@ class Notification(BaseModel):
         on_update='CASCADE',
         db_column='user_id'
     )
-    datetime = DateTimeField(default=dt.now())
+    datetime = DateTimeField(default=dt.now)
 
 
 class User_Group(BaseModel):

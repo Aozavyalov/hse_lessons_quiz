@@ -1,37 +1,28 @@
 import logging
-import sys
 from argparse import ArgumentParser, Namespace
 
+from config import TOKEN
 from database.tools import init_db
-from config import TOKENS, DB_CONFIG
 
-LOGGING_LEVELS = {
-    'TEST': logging.DEBUG,
-    'PROD': logging.INFO
-}
+
+logging.basicConfig(level=logging.DEBUG)
 
 
 def parse_argv() -> Namespace:
-    parser = ArgumentParser(
-        description="Starts telegram bot for lessons materials")
-    parser.add_argument('action', type=str,
-                        help="run|init_db")
-    parser.add_argument('--token', '-t', type=str, default="TEST",
-                        help="api token name (from config) for access to bot")
+    parser = ArgumentParser(description="Telegram bot for lessons materials")
+    parser.add_argument('action', type=str, help="run|init_db")
     parser.add_argument('--workers', '-w', type=int, default=10,
-                        help="number of workers for running bot")
+                        help="number of workers to run the bot")
     return parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_argv()
+
     if args.action == "init_db":
         init_db()
     elif args.action == "run":
-        run(
-            token=TOKENS.get(args.token.upper(), TOKENS["TEST"]),
-            logger_level=LOGGING_LEVELS.get(args.token.upper(), logging.DEBUG),
-            workers=args.workers
-        )
+        run(token=TOKEN, workers=args.workers)
     else:
-        print(f"Wrong command: {args.action}", file=sys.stderr)
+        logging.fatal("Invalid action: %s", args.action)
+        exit(1)
