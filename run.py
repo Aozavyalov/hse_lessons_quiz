@@ -5,7 +5,10 @@ from config import TOKEN
 from database.tools import init_db
 
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.DEBUG
+)
 
 
 def parse_argv() -> Namespace:
