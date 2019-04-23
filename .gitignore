@@ -1,5 +1,7 @@
-/hse_quiz_bot
+# /hse_quiz_bot
 /.vscode
 /*.db-*
 /*.db
 *.py[cod]
+/.pytest_cache
+/__cache__
